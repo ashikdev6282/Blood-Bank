@@ -18,7 +18,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
 // Admin Pages
-import AdminLogin from "../admin_dashboard/components/adminlogin";
+import AdminLoginPage from "../admin_dashboard/components/adminlogin";
 import AdminDashboard from "../admin_dashboard/AdminDashboard";
 import Profile from "../components/profile";
 
@@ -53,7 +53,7 @@ const AppContent = () => {
         <Route path="/profile" element={<Profile />} />
 
         {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
       </Routes>
 

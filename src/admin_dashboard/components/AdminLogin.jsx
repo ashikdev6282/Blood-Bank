@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 AOS.init();
 
-const AdminLogin = () => {
+const AdminLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
@@ -101,4 +101,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default AdminLoginPage;
