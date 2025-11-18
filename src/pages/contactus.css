@@ -1,0 +1,110 @@
+.contact-section {
+    padding: 60px 0;
+}
+
+.contact-info h2 {
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.contact-info p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.help-section h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.contact-link {
+    color: black;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Contact Form */
+.contact-form {
+    max-width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: block;
+    color: black;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 8px 0;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+    transition: all 0.3s ease;
+    background: none;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 2px solid black;
+    background: transparent;
+    color: black;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: black;
+    color: white;
+}
+/* Connect With Us Section Styling */
+
+  .connect-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, #e0e7ff, #e9fce9);
+    margin: auto;
+  }
+  
+  .connect-card {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .connect-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  .social-icons a:hover {
+    color: #007bff;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+  
+  

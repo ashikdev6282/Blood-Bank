@@ -1,0 +1,78 @@
+/* SearchBar.css */
+
+.search-bar-section {
+    background: #fff0f0;
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .search-bar-section form {
+    width: 100%;
+  }
+  
+  .search-bar-section .form-select,
+  .search-bar-section .form-control {
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  
+  .search-bar-section .form-select:focus,
+  .search-bar-section .form-control:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    outline: none;
+  }
+  
+  .search-bar-section button {
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-bar-section button:hover {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* ✅ Responsive tweaks */
+  
+  @media (max-width: 768px) {
+    .search-bar-section {
+      padding: 2rem 1rem;
+    }
+  
+    .search-bar-section .form-select,
+    .search-bar-section .form-control {
+      font-size: 0.95rem;
+      padding: 10px 14px;
+    }
+  
+    .search-bar-section button {
+      font-size: 0.95rem;
+      padding: 10px 16px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .search-bar-section {
+      padding: 1.5rem 1rem;
+    }
+  
+    .search-bar-section form .row {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .search-bar-section .form-select,
+    .search-bar-section .form-control,
+    .search-bar-section button {
+      width: 100%;
+    }
+  }
+  

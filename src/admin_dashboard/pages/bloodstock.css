@@ -1,0 +1,45 @@
+.blood-stock-page {
+    padding: 25px;
+  }
+  
+  .stock-card {
+    transition: 0.3s ease;
+    border-left: 5px solid #dc3545;
+    background: #fff;
+    position: relative;
+  }
+  
+  .stock-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .stock-card h4 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .stock-card p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .low-stock {
+    border-left: 5px solid #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3) !important;
+  }
+  
+  .fade-in-modal .modal-content {
+    animation: fadeInModal 0.5s ease;
+  }
+  
+  @keyframes fadeInModal {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

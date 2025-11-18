@@ -1,0 +1,145 @@
+.register-wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #efa0a0, #f89d9d);
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border-radius: 30px;
+  margin: 20px;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.register-left {
+  flex: 1;
+  padding: 40px;
+  color: #b30000;
+  text-align: center;
+}
+
+.register-left h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+}
+
+.register-left p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #333;
+}
+
+.register-left img {
+  max-width: 80%;
+  margin-top: 30px;
+}
+
+.register-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glass-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  background-clip: padding-box;
+  margin: 20px;
+  height: auto;
+}
+
+.glass-card h2 {
+  color: #ff4d4d;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.form-control,
+.form-select {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  color: #000;
+  backdrop-filter: blur(5px);
+  font-size: 0.95rem;
+}
+
+.form-check-label {
+  color: #fff;
+}
+
+button,
+.btn {
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .register-wrapper {
+    flex-direction: column;
+    padding: 30px 15px;
+    margin: 10px;
+  }
+
+  .register-left,
+  .register-right {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .register-left h1 {
+    font-size: 2.2rem;
+  }
+
+  .register-left p {
+    font-size: 1rem;
+  }
+
+  .register-left img {
+    max-width: 60%;
+  }
+
+  .glass-card {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .register-left h1 {
+    font-size: 1.8rem;
+  }
+
+  .register-left p {
+    font-size: 0.95rem;
+  }
+
+  .glass-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .glass-card {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+  }
+
+  button,
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}

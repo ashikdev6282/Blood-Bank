@@ -1,0 +1,78 @@
+.upcoming-drives-section {
+    padding: 60px 20px;
+    border-radius: 12px;
+  }
+  
+  .upcoming-drives-section h2 {
+    color: #b3002d;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+  
+  .text-crimson {
+    color: #b3002d;
+  }
+  
+  .drive-card-horizontal {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .drive-card-horizontal:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+  
+  .drive-left, .drive-right {
+    flex: 1;
+  }
+  
+  .drive-left {
+    border-right: 1px solid #ddd;
+  }
+  
+  .drive-right {
+    padding-left: 20px;
+  }
+  
+  .drive-left h5 {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .drive-left .org {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.8rem;
+  }
+  
+  .drive-card-horizontal p {
+    margin-bottom: 8px;
+    font-size: 15.5px;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    .drive-card-horizontal {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .drive-left {
+      border-right: none;
+      padding-right: 0;
+      margin-bottom: 15px;
+    }
+  
+    .drive-right {
+      padding-left: 0;
+    }
+  }
+  

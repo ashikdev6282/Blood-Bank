@@ -1,0 +1,105 @@
+.landing-hero {
+    height: 100vh; /* Full viewport height */
+    width: 80vw; /* Full viewport width */
+    background: linear-gradient(135deg, #f89d99, #f89b7d);
+    background-size: cover;
+    display: flex;
+    align-items: flex-start; /* Ensures content starts at the top */
+    justify-content: center;
+    padding: 30px;
+    border-radius: 30px;
+    margin: 0; /* Remove margin to ensure full screen */
+    position: relative;
+    overflow: hidden;
+    margin-right: 30px;
+  }
+  
+  .hero-content {
+    margin-top: 50px; /* Adjust margin-top for better spacing */
+    text-align: center;
+    z-index: 2;
+  }
+  
+  .hero-content h1 {
+    font-size: 4rem; /* Increased font size */
+    font-weight: 700;
+    color: #fff;
+  }
+  
+  .hero-content p {
+    font-size: 1.5rem; /* Adjusted font size for better readability */
+    max-width: 700px;
+    margin: 20px auto;
+    color: #f1f1f1;
+  }
+  
+  .glow-btn {
+    background: #fff;
+    color: #cc2b5e;
+    border: none;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 12px 30px;
+  }
+  
+  .glow-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(220, 53, 69, 0.8);
+  }
+  
+  .glow-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 12px 30px;
+  }
+  
+  .glow-btn-outline:hover {
+    background: #fff;
+    color: #cc2b5e;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Increase SVG Wave Height */
+  .wave-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 1;
+  }
+  
+  .wave-bottom svg {
+    display: block;
+    width: 100%;
+    height: 150px; /* Increased height for wave */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.5rem; /* Adjust font size for smaller screens */
+    }
+  
+    .hero-content p {
+      font-size: 1.2rem; /* Adjust paragraph font size */
+    }
+  
+    .landing-hero {
+      padding: 20px;
+      margin: 0;
+    }
+  
+    .glow-btn,
+    .glow-btn-outline {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  

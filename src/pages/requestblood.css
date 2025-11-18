@@ -1,0 +1,294 @@
+.request-page {
+    padding: 50px 0;
+    transition: background 0.3s ease;
+}
+
+/* Hero Section */
+.hero-request {
+    margin-bottom: 60px;
+    background: linear-gradient(to right, #fdf0f0, #ffe3e3);
+    padding: 40px 20px;
+    border-radius: 12px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #d10000;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.request-hero-img {
+    max-width: 100%;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* New Form Section */
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: url('/src/assets/form-bg.jpg') no-repeat center center/cover;
+    padding: 60px 20px;
+    border-radius: 20px;
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Parallax effect */
+.form-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 130%;
+    width: 100%;
+    background: linear-gradient(to top right, rgba(255, 255, 255, 0.1), rgba(255, 0, 0, 0.05));
+    backdrop-filter: blur(2px);
+    z-index: 0;
+    transform: translateY(-30px);
+    animation: scrollParallax 10s linear infinite alternate;
+}
+
+@keyframes scrollParallax {
+    0% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+/* Form + Image Split */
+.form-section-content {
+    flex: 1;
+    z-index: 2;
+    padding: 20px;
+    color: white;
+}
+
+.form-section-image {
+    flex: 1;
+    z-index: 2;
+    padding: 20px;
+    text-align: center;
+}
+
+.form-section-image img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.request-form {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    color: #131313;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px;
+    z-index: 2;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Cards */
+.request-info-card {
+    background-color: #e28383;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(255, 76, 76, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.request-info-card:hover {
+    transform: translateY(-5px);
+}
+
+.request-icon {
+    font-size: 2rem;
+    color: #ff4c4c;
+}
+
+/* Sticky Testimonial Section */
+.sticky-testimonial-container {
+    position: relative;
+    height: 100vh;
+    margin-top: 80px;
+    overflow: hidden;
+}
+
+.sticky-background {
+    background: url('/src/assets/blood-request2.jpg') no-repeat center center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 500px;
+    width: 100%;
+    z-index: 0;
+    filter: brightness(0.4);
+    border-radius: 40px;
+    animation: scrollParallax 20s ease-in-out infinite alternate;
+}
+
+.testimonial-carousel-section {
+    position: sticky;
+    top: 20%;
+    z-index: 2;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+}
+
+.testimonial-text {
+    font-size: 1.25rem;
+    font-style: italic;
+}
+
+.testimonial-author {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Dark Mode */
+.dark-mode {
+    color: #fff;
+}
+.dark-mode .hero-request {
+    background: linear-gradient(to right, #1f1f1f, #333);
+}
+.dark-mode .request-form,
+.dark-mode .request-info-card {
+    background-color: #1e1e1e;
+    color: #fff;
+    border: 1px solid #333;
+}
+.dark-mode .form-section::before {
+    background: linear-gradient(to top right, rgba(0, 0, 0, 0.3), rgba(60, 0, 0, 0.4));
+}
+
+.urgent-banner {
+    background-color: #ff4c4c;
+    padding: 15px;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+.steps-section {
+    border-radius: 12px;
+    margin-top: 40px;
+    padding: 40px 20px;
+}
+
+.step-card {
+    background: rgb(220, 141, 141);
+    border-radius: 10px;
+    padding: 25px 20px;
+    box-shadow: 0 4px 12px rgba(255, 76, 76, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-8px);
+}
+
+
+.blood-availability-section {
+    border-radius: 12px;
+    margin-top: 40px;
+    padding: 40px 20px;
+}
+
+.blood-availability-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 76, 76, 0.1);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.blood-availability-box:hover {
+    transform: scale(1.05);
+    background-color: #ffe3e3;
+}
+
+.blood-availability-box h5 {
+    font-size: 1.5rem;
+    color: #d10000;
+}
+
+.blood-availability-box p {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.impact-counter-section {
+    padding: 80px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.1);
+}
+  
+.impact-box {
+    border: 3px solid;
+    border-radius: 12px;
+    padding: 30px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+  
+.impact-box:hover {
+    transform: scale(1.05);
+}
+  
+.impact-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+  
+.impact-box h3 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #d10000;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .form-section {
+        flex-direction: column;
+    }
+
+    .form-section-image,
+    .form-section-content {
+        width: 100%;
+        text-align: center;
+    }
+
+    .request-hero-img {
+        margin-top: 20px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .testimonial-carousel-section {
+        padding: 30px 10px;
+    }
+}

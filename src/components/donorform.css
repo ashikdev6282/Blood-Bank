@@ -1,0 +1,44 @@
+.donor-form-section {
+    background: url('https://plus.unsplash.com/premium_photo-1723132609926-357e87eb7997?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzN8fGJsb29kfGVufDB8fDB8fHww') no-repeat center center;
+    background-size: cover;
+    padding: 60px 0;
+    min-height: 80vh;
+    position: relative;
+    margin-top: 40px;
+    border-radius: 20px;
+}
+
+.form-container {
+    padding: 30px;
+}
+
+.glass-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.glass-form input {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    color: rgb(19, 19, 19);
+}
+
+.glass-form input::placeholder {
+    color: rgba(13, 13, 13, 0.8);
+}
+
+.glass-form input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+}
+
+.form-image-overlay {
+    text-align: center;
+    padding: 50px;
+    backdrop-filter: blur(3px);
+}

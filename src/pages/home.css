@@ -1,0 +1,198 @@
+/* Global Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fce7e0 0%, #f3d3cf 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #e0a4a4;
+}
+
+.hero-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+.hero-card h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #222;
+}
+
+.hero-card p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.hero-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: 2px solid black;
+    color: black;
+    font-weight: bold;
+    transition: 0.3s;
+    background: white;
+    display: inline-block;
+}
+
+.hero-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Blood Bank Stats */
+.stats-section {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.stats-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1;
+    max-width: 250px;
+}
+
+.stats-card h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.stats-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Carousel Section */
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Move Left */
+.carousel-slide.next {
+    animation: slideLeft 0.6s forwards;
+}
+
+/* Move Right */
+.carousel-slide.prev {
+    animation: slideRight 0.6s forwards;
+}
+
+/* Keyframes */
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Carousel Navigation Buttons */
+.nav-arrow {
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    color: black;
+    font-size: 24px;
+}
+
+.nav-arrow.left {
+    left: 10px;
+}
+
+.nav-arrow.right {
+    right: 10px;
+}
+
+/* Carousel Button */
+.carousel-slide .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+.carousel-slide .btn:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-card {
+        padding: 30px;
+    }
+
+    .stats-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-card {
+        max-width: 80%;
+    }
+}

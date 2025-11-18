@@ -1,0 +1,79 @@
+/* Navbar Styling */
+.custom-navbar {
+    background: linear-gradient(135deg, #101010, #353434);
+    padding: 15px 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white !important;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    color: #f8d7da !important;
+}
+
+/* Navigation Links */
+.nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: white !important;
+    margin: 0 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #f8d7da !important;
+    transform: translateY(-2px);
+}
+
+/* Donate Button */
+.donate-button {
+    background-color: white;
+    color: #d9534f;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-left: 15px;
+    border: 2px solid white;
+    transition: all 0.3s ease-in-out;
+}
+
+.donate-btn:hover {
+    background-color: #f8d7da;
+    color: #8b0000;
+    transform: scale(1.05);
+}
+
+/* Responsive Toggle Button */
+.custom-toggler {
+    border: none;
+    outline: none;
+    
+}
+
+.custom-toggler:focus {
+    box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .custom-navbar {
+        padding: 10px 15px;
+        margin: 10px;
+    }
+    
+    .nav-link {
+        font-size: 1rem;
+        margin: 5px 0;
+    }
+
+    .donate-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+}

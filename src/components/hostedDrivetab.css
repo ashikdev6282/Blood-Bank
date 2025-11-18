@@ -1,0 +1,125 @@
+.hosted-drives-tab {
+  padding: 2rem;
+  width: 100%;
+}
+
+.carousel-card {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+.drive-card {
+  background: #fff8ee;
+  border-radius: 1rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.drive-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.status {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.status.completed {
+  background-color: #4caf50;
+}
+.status.pending {
+  background-color: #ff9800;
+}
+.status.approved {
+  background-color: #2196f3;
+}
+
+/* Info section */
+.drive-card p {
+  margin: 0.4rem 0;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+
+  .drive-card {
+    padding: 1.2rem 1.5rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .hosted-drives-tab {
+    width: 300px;
+  }
+  .drive-card {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .drive-card p {
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .hosted-drives-tab {
+    padding: 1rem;
+    width: 300px;
+  }
+  .drive-card {
+    padding: 0.8rem;
+  }
+
+  .carousel-card {
+    padding: 0.5rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-header h3 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .status {
+    font-size: 0.75rem;
+  }
+
+  .drive-card p {
+    font-size: 0.85rem;
+    
+  }
+}

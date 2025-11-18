@@ -1,0 +1,24 @@
+.request-form-wrapper {
+    padding: 40px 15px;
+}
+
+.form-illustration {
+    background: linear-gradient(to right, #ffe5e5, #ffc4c4);
+    padding: 30px;
+}
+
+.form-illustration img {
+    max-width: 80%;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.form-side {
+    background-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .form-illustration {
+        display: none !important;
+    }
+}

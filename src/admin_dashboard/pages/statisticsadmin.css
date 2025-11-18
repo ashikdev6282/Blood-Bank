@@ -1,0 +1,44 @@
+.admin-section {
+  padding: 2rem;
+}
+
+.stat-card {
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-wrapper {
+  font-size: 2rem;
+  padding: 10px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+}
+
+.blood-group {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.units {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.stock-card {
+  border: 1px solid #eee;
+  transition: 0.2s;
+}
+
+.stock-card:hover {
+  background: #fff8f8;
+  transform: scale(1.02);
+}

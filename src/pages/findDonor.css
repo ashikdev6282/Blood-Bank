@@ -1,0 +1,216 @@
+/* ========== General Page Styles ========== */
+.find-donor-page {
+    font-family: 'Segoe UI', sans-serif;
+    
+  }
+  
+  /* ========== Hero Section ========== */
+  .find-donor-hero {
+    padding: 100px 0 60px;
+    background: linear-gradient(to right, #ffdddd, #fff6f6);
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .hero-image {
+    max-width: 100%;
+    height: auto;
+    animation: floatY 4s ease-in-out infinite;
+  }
+  
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* ========== Live Donor Availability ========== */
+  .donor-availability-section {
+    padding: 80px 0;
+   
+  }
+  
+  .styled-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    padding: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .styled-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .donor-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .status-indicator.available {
+    background-color: #28a745;
+  }
+  
+  .status-indicator.busy {
+    background-color: #dc3545;
+  }
+  
+  .status-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-right: 160px;
+  }
+  
+  .donor-info h5 {
+    margin-top: 15px;
+    font-weight: 600;
+    color: #222;
+  }
+  
+  .blood-group,
+  .location {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  /* ========== Donor Map Visualization ========== */
+  .donor-map-section {
+    padding: 80px 0;
+  }
+  
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  
+  .map-image {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  .marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border: 3px solid white;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  
+  .marker-1 { top: 30%; left: 40%; }
+  .marker-2 { top: 45%; left: 40%; }
+  .marker-3 { top: 60%; left: 45%; }
+  .marker-4 { top: 50%; left: 50%; }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.4;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+  
+  /* ========== How It Works Section ========== */
+  .how-it-works-section {
+    padding: 80px 0;
+    
+  }
+  
+  .how-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .how-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .how-icon {
+    font-size: 2.2rem;
+    color: #d6336c;
+    margin-bottom: 15px;
+  }
+  
+  /* ========== CTA Banner ========== */
+  .donor-cta-banner {
+    background: linear-gradient(to right, #ffccd5, #fff0f3);
+    padding: 60px 20px;
+  }
+  
+  .cta-title {
+    font-weight: 700;
+    color: #222;
+  }
+  
+  .cta-subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 25px;
+  }
+  
+  .cta-buttons .btn {
+    border-radius: 30px;
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .cta-buttons .btn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  /* ========== Lottie Heartbeat Animation (Optional Container) ========== */
+  .heartbeat-animation {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    background: transparent!important;
+  }
+  
+  /* ========== Responsive Design ========== */
+  @media screen and (max-width: 768px) {
+    .find-donor-hero {
+      text-align: center;
+    }
+  
+    .cta-buttons .btn {
+      margin-bottom: 10px;
+    }
+  
+    .marker {
+      width: 15px;
+      height: 15px;
+    }
+  
+    .how-card {
+      margin-bottom: 20px;
+    }
+  }
+  
