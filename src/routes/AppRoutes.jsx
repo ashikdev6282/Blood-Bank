@@ -19,7 +19,7 @@ import Footer from "../components/footer";
 
 // Admin Pages
 import AdminLoginPage from "../admin_dashboard/components/AdminLoginPage.jsx";
-import AdminDashboard from "../admin_dashboard/AdminDashboard.jsx";
+import AdminDashboard from "../admin_dashboard/adminDashboardPage.jsx";
 import Profile from "../components/profile";
 
 const AppContent = () => {
