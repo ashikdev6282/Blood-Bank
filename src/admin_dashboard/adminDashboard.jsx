@@ -27,7 +27,6 @@ const AdminDashboard = () => {
                 <Topbar toggleSidebar={toggleSidebar} />
                 <div className='content-body p-3'>
                     <Routes>
-                        
                         <Route path='/overview' element={<Overview />} />
                         <Route path='/blood-stock' element={<BloodStock />} />
                         <Route path='/requests' element={<BloodRequest />} />

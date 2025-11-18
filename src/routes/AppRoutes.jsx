@@ -18,7 +18,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
 // Admin Pages
-// import AdminLoginPage from "../admin_dashboard/components/adminlogin.jsx";
+import AdminLoginPage from "../admin_dashboard/components/AdminLoginPage.jsx";
 import AdminDashboard from "../admin_dashboard/AdminDashboard.jsx";
 import Profile from "../components/profile";
 
