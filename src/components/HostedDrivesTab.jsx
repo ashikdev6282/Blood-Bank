@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import './hostedDriveTab.css';
+import './hostedDrivetab.css';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaClock } from 'react-icons/fa';
 
 const HostedDrivesTab = () => {
