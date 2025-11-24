@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Sidebar from './components/sidebar';
+import Sidebar from './components/sidebarSection.jsx';
 import Topbar from './components/topbarPage.jsx';
-import Overview from './pages/overview';
+import Overview from './pages/overviewpage.jsx';
 import './adminDashboard.css';
 import BloodStock from './pages/bloodstock';
 import BloodRequest from './pages/bloodrequest';
