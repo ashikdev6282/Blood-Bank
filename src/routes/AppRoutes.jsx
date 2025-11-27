@@ -21,6 +21,8 @@ import Footer from "../components/footer";
 import AdminLoginPage from "../admin_dashboard/components/AdminLoginPage.jsx";
 import AdminDashboard from "../admin_dashboard/adminDashboardPage.jsx";
 import Profile from "../components/profile";
+import ProtectedRoute from "../routes/protectedRoute.jsx";
+
 
 const AppContent = () => {
   const location = useLocation();
@@ -54,7 +56,7 @@ const AppContent = () => {
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/admin/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
       </Routes>
 
       {!hideLayout && <Footer />}

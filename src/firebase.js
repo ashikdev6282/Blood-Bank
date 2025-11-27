@@ -1,6 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -12,10 +15,15 @@ const firebaseConfig = {
   projectId: "blood-bank-ae3a5",
   storageBucket: "blood-bank-ae3a5.firebasestorage.app",
   messagingSenderId: "167810730930",
-  appId: "1:167810730930:web:a806c94485edfcf9cf32ab",
+  appId: "1:167810730930:web:a806c94485edfcf9cf32ab", 
   measurementId: "G-HRLDZMHDG7"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Services
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const storage = getStorage(app);
 const analytics = getAnalytics(app);
