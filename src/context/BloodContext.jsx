@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { listenToBloodStockChanges, addBloodStockItem, updateBloodStockItem, deleteBloodStockItem, } from "../firebase_services/bloodStockService";
+import { listenToRequests, addBloodRequest, updateRequestStatus, deleteRequest,} from "../firebase_services/requestService";
+import { listenToDonors, addDonor, updateDonor, deleteDonor, } from "../firebase_services/donorService";
 
 export const BloodContext = createContext();
 
@@ -8,21 +10,14 @@ export const BloodProvider = ({ children }) => {
   const [bloodStock, setBloodStock] = useState([]);
   const [loadingStock, setLoadingStock] = useState(true);
 
-  // 🩸 Donors (still dummy/frontend for now)
-  const [donors, setDonors] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", bloodGroup: "A+", blocked: false },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", bloodGroup: "O-", blocked: false },
-    { id: 3, name: "Raj Verma", email: "raj@example.com", bloodGroup: "B+", blocked: true },
-    { id: 4, name: "Sara Khan", email: "sara@example.com", bloodGroup: "AB+", blocked: false },
-    { id: 5, name: "Ali Ahmed", email: "ali@example.com", bloodGroup: "O+", blocked: false },
-    { id: 6, name: "Fatima Noor", email: "fatima@example.com", bloodGroup: "A-", blocked: true },
-    { id: 7, name: "Ravi Kumar", email: "ravi@example.com", bloodGroup: "B-", blocked: false },
-    { id: 8, name: "Priya Singh", email: "priya@example.com", bloodGroup: "AB-", blocked: false },
-    { id: 9, name: "Mohammed Ali", email: "mohammed@example.com", bloodGroup: "O-", blocked: false },
-    { id: 10, name: "Anjali Mehta", email: "anjali@example.com", bloodGroup: "A+", blocked: true },
-  ]);
+  // 🩸 Donors from Firestore (live)
+  const [donors, setDonors] = useState([]);
+  const [loadingDonors, setLoadingDonors] = useState(true);
 
+  // 🆕 Requests (Firestore, live)
   const [requests, setRequests] = useState([]);
+  const [loadingRequests, setLoadingRequests] = useState(true);
+
   const [user, setUser] = useState(null);
 
   // 🩸 Blood drives (frontend-only for now)
@@ -53,7 +48,8 @@ export const BloodProvider = ({ children }) => {
       driveType: "Indoor",
       expectedDonors: 45,
       specialRequirements: "Chairs, Fans",
-      description: "An indoor blood donation drive in collaboration with local NGO.",
+      description:
+        "An indoor blood donation drive in collaboration with local NGO.",
       agreeToContact: true,
       status: "Pending",
     },
@@ -106,6 +102,26 @@ export const BloodProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // 🔥 Connect to Firestore for requests (real-time)
+  useEffect(() => {
+    const unsubscribe = listenToRequests((data) => {
+      setRequests(data);
+      setLoadingRequests(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // 🔥 Connect to Firestore for donors (real-time)
+  useEffect(() => {
+    const unsubscribe = listenToDonors((data) => {
+      setDonors(data);
+      setLoadingDonors(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // 🔹 Wrapper: Add stock (used in Blood Stock page)
   const addStock = async (item) => {
     await addBloodStockItem(item);
@@ -119,6 +135,34 @@ export const BloodProvider = ({ children }) => {
   // 🔹 Wrapper: Delete stock
   const deleteStock = async (id) => {
     await deleteBloodStockItem(id);
+  };
+
+  // 🆕 Wrapper: Create blood request (user side)
+  const createRequest = async (data) => {
+    await addBloodRequest(data);
+  };
+
+  // 🆕 Wrapper: Change request status (admin side)
+  const changeRequestStatus = async (id, status) => {
+    await updateRequestStatus(id, status);
+  };
+
+  // 🆕 Wrapper: Remove request (admin side – optional)
+  const removeRequest = async (id) => {
+    await deleteRequest(id);
+  };
+
+  // 🆕 Donor wrappers (admin side)
+  const addNewDonor = async (donor) => {
+    await addDonor(donor);
+  };
+
+  const updateDonorInfo = async (id, updates) => {
+    await updateDonor(id, updates);
+  };
+
+  const removeDonor = async (id) => {
+    await deleteDonor(id);
   };
 
   return (
@@ -135,13 +179,22 @@ export const BloodProvider = ({ children }) => {
         updateStock,
         deleteStock,
 
-        // donors (frontend)
+        // donors (Firestore)
         donors,
-        setDonors,
+        loadingDonors,
+        addNewDonor,
+        updateDonorInfo,
+        removeDonor,
+        // If you still have any old code using setDonors, you can temporarily expose it:
+        // setDonors,
 
-        // requests (frontend for now)
+        // requests (Firestore)
         requests,
-        setRequests,
+        loadingRequests,
+        createRequest,
+        changeRequestStatus,
+        removeRequest,
+        // setRequests, // <– only if needed for some leftover code
 
         // blood drives (frontend)
         bloodDrives,
