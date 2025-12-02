@@ -1,7 +1,28 @@
 import React, { createContext, useState, useEffect } from "react";
-import { listenToBloodStockChanges, addBloodStockItem, updateBloodStockItem, deleteBloodStockItem, } from "../firebase_services/bloodStockService";
-import { listenToRequests, addBloodRequest, updateRequestStatus, deleteRequest,} from "../firebase_services/requestService";
-import { listenToDonors, addDonor, updateDonor, deleteDonor, } from "../firebase_services/donorService";
+import {
+  listenToBloodStockChanges,
+  addBloodStockItem,
+  updateBloodStockItem,
+  deleteBloodStockItem,
+} from "../firebase_services/bloodStockService";
+import {
+  listenToRequests,
+  addBloodRequest,
+  updateRequestStatus,
+  deleteRequest,
+} from "../firebase_services/requestService";
+import {
+  listenToDonors,
+  addDonor,
+  updateDonor,
+  deleteDonor,
+} from "../firebase_services/donorService";
+import {
+  listenToDrives,
+  addDrive,
+  updateDrive,
+  deleteDrive,
+} from "../firebase_services/driveService";
 
 export const BloodContext = createContext();
 
@@ -20,8 +41,9 @@ export const BloodProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
 
-  // 🩸 Blood drives (frontend-only for now)
+  // 🩸 Drives from Firestore (live)
   const [bloodDrives, setBloodDrives] = useState([]);
+  const [loadingDrives, setLoadingDrives] = useState(true);
 
   const [adminStats, setAdminStats] = useState({
     totalDrives: 8,
@@ -35,6 +57,7 @@ export const BloodProvider = ({ children }) => {
     ],
   });
 
+  // still frontend-only for now (e.g. for profile/history)
   const [hostedDrives, setHostedDrives] = useState([
     {
       id: 1,
@@ -81,7 +104,8 @@ export const BloodProvider = ({ children }) => {
       driveType: "Indoor",
       expectedDonors: 80,
       specialRequirements: "Projector, Water Bottles",
-      description: "Annual school-organized blood drive for parent volunteers.",
+      description:
+        "Annual school-organized blood drive for parent volunteers.",
       agreeToContact: true,
       status: "Completed",
     },
@@ -117,6 +141,16 @@ export const BloodProvider = ({ children }) => {
     const unsubscribe = listenToDonors((data) => {
       setDonors(data);
       setLoadingDonors(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // 🔥 Connect to Firestore for drives (real-time)
+  useEffect(() => {
+    const unsubscribe = listenToDrives((data) => {
+      setBloodDrives(data);
+      setLoadingDrives(false);
     });
 
     return () => unsubscribe();
@@ -165,6 +199,19 @@ export const BloodProvider = ({ children }) => {
     await deleteDonor(id);
   };
 
+  // 🆕 Drive wrappers (user + admin)
+  const addBloodDrive = async (drive) => {
+    await addDrive(drive);
+  };
+
+  const updateDriveStatus = async (id, updates) => {
+    await updateDrive(id, updates);
+  };
+
+  const removeDrive = async (id) => {
+    await deleteDrive(id);
+  };
+
   return (
     <BloodContext.Provider
       value={{
@@ -185,8 +232,7 @@ export const BloodProvider = ({ children }) => {
         addNewDonor,
         updateDonorInfo,
         removeDonor,
-        // If you still have any old code using setDonors, you can temporarily expose it:
-        // setDonors,
+        // setDonors, // expose only if you still need direct state updates
 
         // requests (Firestore)
         requests,
@@ -194,17 +240,21 @@ export const BloodProvider = ({ children }) => {
         createRequest,
         changeRequestStatus,
         removeRequest,
-        // setRequests, // <– only if needed for some leftover code
+        // setRequests, // expose only if needed
 
-        // blood drives (frontend)
+        // blood drives (Firestore)
         bloodDrives,
-        setBloodDrives,
+        loadingDrives,
+        addBloodDrive,
+        updateDriveStatus,
+        removeDrive,
+        // setBloodDrives, // only if some legacy code still depends on it
 
         // stats
         adminStats,
         setAdminStats,
 
-        // hosted drives
+        // hosted drives (frontend-only)
         hostedDrives,
         setHostedDrives,
         addHostedDrive,

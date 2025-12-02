@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { BloodContext } from '../../context/BloodContext';
-import { FaUsers, FaTint, FaHandsHelping } from 'react-icons/fa';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import React, { useContext, useEffect, useMemo } from "react";
+import { BloodContext } from "../../context/BloodContext";
+import { FaUsers, FaTint, FaHandsHelping } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import {
   PieChart,
   Pie,
@@ -14,44 +14,74 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
-  Legend
-} from 'recharts';
+  Legend,
+} from "recharts";
+import { Spinner } from "react-bootstrap";
 
-import './overview.css';
-
-AOS.init();
+import "./overview.css";
 
 const Overview = () => {
-  const { adminStats } = useContext(BloodContext);
+  const {
+    donors,
+    loadingDonors,
+    requests,
+    loadingRequests,
+    bloodDrives,
+    loadingDrives,
+  } = useContext(BloodContext);
+
+  useEffect(() => {
+    AOS.init({ duration: 800 });
+  }, []);
+
+  const loading = loadingDonors || loadingRequests || loadingDrives;
+
+  // 🔢 Compute live stats
+  const { totalDrives, totalRequests, totalDonors } = useMemo(() => {
+    return {
+      totalDrives: bloodDrives.length,
+      totalRequests: requests.length,
+      totalDonors: donors.length,
+    };
+  }, [bloodDrives, requests, donors]);
 
   const stats = [
     {
-      label: 'Total Drives',
-      value: adminStats?.totalDrives || 0,
+      label: "Total Drives",
+      value: totalDrives,
       icon: <FaHandsHelping size={30} />,
-      color: '#f44336',
+      color: "#f44336",
     },
     {
-      label: 'Blood Requests',
-      value: adminStats?.totalRequests || 0,
+      label: "Blood Requests",
+      value: totalRequests,
       icon: <FaTint size={30} />,
-      color: '#3f51b5',
+      color: "#3f51b5",
     },
     {
-      label: 'Donors',
-      value: adminStats?.totalDonors || 0,
+      label: "Donors",
+      value: totalDonors,
       icon: <FaUsers size={30} />,
-      color: '#4caf50',
+      color: "#4caf50",
     },
   ];
 
   const chartData = [
-    { name: 'Drives', value: adminStats?.totalDrives || 0 },
-    { name: 'Requests', value: adminStats?.totalRequests || 0 },
-    { name: 'Donors', value: adminStats?.totalDonors || 0 },
+    { name: "Drives", value: totalDrives },
+    { name: "Requests", value: totalRequests },
+    { name: "Donors", value: totalDonors },
   ];
 
-  const pieColors = ['#f44336', '#3f51b5', '#4caf50'];
+  const pieColors = ["#f44336", "#3f51b5", "#4caf50"];
+
+  if (loading) {
+    return (
+      <div className="overview text-center mt-5">
+        <Spinner animation="border" />
+        <p className="mt-2">Loading dashboard overview...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="overview">
@@ -113,7 +143,10 @@ const Overview = () => {
                   label
                 >
                   {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={pieColors[index % pieColors.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />

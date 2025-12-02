@@ -14,22 +14,24 @@ const BloodDrive = () => {
   const [stats, setStats] = useState({ drives: 0, donors: 0, lives: 0 });
   const { addBloodDrive, user } = useContext(BloodContext);
 
-  const [formData, setFormData] = useState({  
-    fullName: '',
-    organization: '',
-    email: '',
-    phoneNumber: '',
-    date: '',
-    location: '',
-    time: '',
-    driveType: '',
+  const [formData, setFormData] = useState({
+    fullName: "",
+    organization: "",
+    email: "",
+    phoneNumber: "",
+    date: "",
+    location: "",
+    time: "",
+    driveType: "",
     expectedDonors: 0,
-    specialRequirements: '',
-    description: '',
+    specialRequirements: "",
+    description: "",
     agreeToContact: false,
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -37,7 +39,9 @@ const BloodDrive = () => {
   }, []);
 
   const animateStats = () => {
-    let drives = 0, donors = 0, lives = 0;
+    let drives = 0,
+      donors = 0,
+      lives = 0;
     const interval = setInterval(() => {
       drives = Math.min(drives + 5, 320);
       donors = Math.min(donors + 25, 5200);
@@ -54,49 +58,93 @@ const BloodDrive = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
+    setErrorMessage("");
+    setSuccessMessage("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.organization || !formData.email || !formData.location || !formData.date || !formData.time) {
-      alert("Please fill all required fields.");
+    if (
+      !formData.fullName ||
+      !formData.organization ||
+      !formData.email ||
+      !formData.phoneNumber ||
+      !formData.location ||
+      !formData.date ||
+      !formData.time ||
+      !formData.driveType ||
+      !formData.expectedDonors ||
+      !formData.description ||
+      !formData.agreeToContact
+    ) {
+      setErrorMessage("Please fill all required fields and agree to contact.");
       return;
     }
 
-    addBloodDrive(formData);
-    setSuccessMessage("Blood drive hosted successfully!");
+    setSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    setFormData({
-      fullName: '',
-      organization: '',
-      email: '',
-      phoneNumber: '',
-      date: '',
-      location: '',
-      time: '',
-      driveType: '',
-      expectedDonors: 0,
-      specialRequirements: '',
-      description: '',
-      agreeToContact: false,
-    });
+    try {
+      await addBloodDrive({
+        fullName: formData.fullName.trim(),
+        organization: formData.organization.trim(),
+        email: formData.email.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
+        date: formData.date,
+        location: formData.location.trim(),
+        time: formData.time,
+        driveType: formData.driveType,
+        expectedDonors: Number(formData.expectedDonors) || 0,
+        specialRequirements: formData.specialRequirements.trim(),
+        description: formData.description.trim(),
+        agreeToContact: formData.agreeToContact,
+        status: "Pending",
+        createdBy: user?.email || null,
+      });
 
-    setTimeout(() => setSuccessMessage(''), 3000);
+      setSuccessMessage("Blood drive hosted successfully! 🎉");
+      setFormData({
+        fullName: "",
+        organization: "",
+        email: "",
+        phoneNumber: "",
+        date: "",
+        location: "",
+        time: "",
+        driveType: "",
+        expectedDonors: 0,
+        specialRequirements: "",
+        description: "",
+        agreeToContact: false,
+      });
+
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (err) {
+      console.error("Error hosting blood drive:", err);
+      setErrorMessage("Failed to host blood drive. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <section className="blood-drive-section">
       <Container fluid className="py-5">
-
         {/* Hero Section */}
         <Row className="align-items-center hero-section" data-aos="fade-up">
           <Col md={6}>
             <h1 className="display-5 fw-bold">Organize a Blood Drive</h1>
-            <p className="lead">Make a difference by hosting a life-saving blood donation event in your community or organization.</p>
-            <Button className="cta-btn" variant="danger">Learn More</Button>
+            <p className="lead">
+              Make a difference by hosting a life-saving blood donation event
+              in your community or organization.
+            </p>
+            <Button className="cta-btn" variant="danger">
+              Learn More
+            </Button>
           </Col>
           <Col md={6}>
             <img
@@ -109,87 +157,215 @@ const BloodDrive = () => {
         </Row>
 
         {/* Info Sections */}
-        <Row className="info-section my-5 px-4 justify-content-center" data-aos="fade-up">
-          <Col md={4} sm={12} className="text-center info-card" data-aos="zoom-in">
-            <div className="info-icon"><FaCalendarAlt /></div>
+        <Row
+          className="info-section my-5 px-4 justify-content-center"
+          data-aos="fade-up"
+        >
+          <Col
+            md={4}
+            sm={12}
+            className="text-center info-card"
+            data-aos="zoom-in"
+          >
+            <div className="info-icon">
+              <FaCalendarAlt />
+            </div>
             <h4>Plan the Event</h4>
-            <p>Create awareness and choose a location, date, and team for smooth hosting.</p>
+            <p>
+              Create awareness and choose a location, date, and team for smooth
+              hosting.
+            </p>
           </Col>
-          <Col md={4} sm={12} className="text-center info-card" data-aos="zoom-in" data-aos-delay="150">
-            <div className="info-icon"><FaHandsHelping /></div>
+          <Col
+            md={4}
+            sm={12}
+            className="text-center info-card"
+            data-aos="zoom-in"
+            data-aos-delay="150"
+          >
+            <div className="info-icon">
+              <FaHandsHelping />
+            </div>
             <h4>Get Support</h4>
-            <p>Our team provides support materials, volunteers, and medical equipment.</p>
+            <p>
+              Our team provides support materials, volunteers, and medical
+              equipment.
+            </p>
           </Col>
-          <Col md={4} sm={12} className="text-center info-card" data-aos="zoom-in" data-aos-delay="300">
-            <div className="info-icon"><FaHeartbeat /></div>
+          <Col
+            md={4}
+            sm={12}
+            className="text-center info-card"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            <div className="info-icon">
+              <FaHeartbeat />
+            </div>
             <h4>Save Lives</h4>
-            <p>Every donation made during your event contributes to saving multiple lives.</p>
+            <p>
+              Every donation made during your event contributes to saving
+              multiple lives.
+            </p>
           </Col>
         </Row>
 
         {/* Host Form Section - Lottie Left, Form Right */}
-        <Row className="host-form-section my-5 p-4 rounded align-items-center" data-aos="fade-up">
-          <Col md={6} className="text-center order-md-1 order-2" data-aos="zoom-in">
-            <Lottie animationData={JourneyPath} loop={true} style={{ height: 280, maxWidth: 400, margin: '0 auto' }} />
+        <Row
+          className="host-form-section my-5 p-4 rounded align-items-center"
+          data-aos="fade-up"
+        >
+          <Col
+            md={6}
+            className="text-center order-md-1 order-2"
+            data-aos="zoom-in"
+          >
+            <Lottie
+              animationData={JourneyPath}
+              loop={true}
+              style={{ height: 280, maxWidth: 400, margin: "0 auto" }}
+            />
             <h2 className="mt-3">Host a Blood Drive</h2>
           </Col>
 
           <Col md={6} className="order-md-2 order-1">
             {user?.isDonor ? (
               <>
-                {successMessage && <Alert variant="success">{successMessage}</Alert>}
+                {errorMessage && (
+                  <Alert variant="danger">{errorMessage}</Alert>
+                )}
+                {successMessage && (
+                  <Alert variant="success">{successMessage}</Alert>
+                )}
+
                 <Form className="glass-form" onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Control type="text" placeholder="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} required />
+                    <Form.Control
+                      type="text"
+                      placeholder="Full Name"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="text" placeholder="Organization (School, NGO, Company)" name="organization" value={formData.organization} onChange={handleChange} required />
+                    <Form.Control
+                      type="text"
+                      placeholder="Organization (School, NGO, Company)"
+                      name="organization"
+                      value={formData.organization}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="email" placeholder="Email Address" name="email" value={formData.email} onChange={handleChange} required />
+                    <Form.Control
+                      type="email"
+                      placeholder="Email Address"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="tel" placeholder="Phone Number" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />
+                    <Form.Control
+                      type="tel"
+                      placeholder="Phone Number"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="date" name="date" value={formData.date} onChange={handleChange} required />
+                    <Form.Control
+                      type="date"
+                      name="date"
+                      value={formData.date}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="text" placeholder="Venue / Location" name="location" value={formData.location} onChange={handleChange} required />
+                    <Form.Control
+                      type="text"
+                      placeholder="Venue / Location"
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Select name="time" value={formData.time} onChange={handleChange} required>
+                    <Form.Select
+                      name="time"
+                      value={formData.time}
+                      onChange={handleChange}
+                      required
+                    >
                       <option value="">Select Time</option>
                       {generateTimeOptions().map((time) => (
-                        <option key={time} value={time}>{time}</option>
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
                       ))}
                     </Form.Select>
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Select name="driveType" value={formData.driveType} onChange={handleChange} required>
+                    <Form.Select
+                      name="driveType"
+                      value={formData.driveType}
+                      onChange={handleChange}
+                      required
+                    >
                       <option value="">Select Drive Type</option>
-                      <option value="indoor">Indoor</option>
-                      <option value="outdoor">Outdoor</option>
+                      <option value="Indoor">Indoor</option>
+                      <option value="Outdoor">Outdoor</option>
                     </Form.Select>
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control type="number" placeholder="Expected Number of Donors" name="expectedDonors" min={1} value={formData.expectedDonors} onChange={handleChange} required />
+                    <Form.Control
+                      type="number"
+                      placeholder="Expected Number of Donors"
+                      name="expectedDonors"
+                      min={1}
+                      value={formData.expectedDonors}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control as="textarea" placeholder="Any special requirements?" name="specialRequirements" rows={3} value={formData.specialRequirements} onChange={handleChange} />
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Any special requirements?"
+                      name="specialRequirements"
+                      rows={3}
+                      value={formData.specialRequirements}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control as="textarea" placeholder="Brief description of the event" name="description" rows={3} value={formData.description} onChange={handleChange} required />
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Brief description of the event"
+                      name="description"
+                      rows={3}
+                      value={formData.description}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -203,12 +379,19 @@ const BloodDrive = () => {
                     />
                   </Form.Group>
 
-                  <Button type="submit" variant="outline-dark">Submit</Button>
+                  <Button
+                    type="submit"
+                    variant="outline-dark"
+                    disabled={submitting}
+                  >
+                    {submitting ? "Submitting..." : "Submit"}
+                  </Button>
                 </Form>
               </>
             ) : (
               <Alert variant="warning">
-                Only registered donors can host a blood drive. Please register as a donor to access this form.
+                Only registered donors can host a blood drive. Please register
+                as a donor to access this form.
               </Alert>
             )}
           </Col>
