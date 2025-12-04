@@ -41,6 +41,7 @@ const AppContent = () => {
     <>
       {!hideLayout && <Navbar />}
 
+
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
