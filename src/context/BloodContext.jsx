@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   listenToBloodStockChanges,
   addBloodStockItem,
@@ -115,6 +117,18 @@ export const BloodProvider = ({ children }) => {
   const addHostedDrive = (drive) => {
     setHostedDrives((prev) => [...prev, { ...drive, status: "Pending" }]);
   };
+
+
+  // 🔥 Listen to auth state changes
+  useEffect(() => {
+  const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+    setUser(firebaseUser);
+    setLoadingUser(false);
+  });
+
+  return () => unsub();
+}, []);
+
 
   // 🔥 Connect to Firestore for blood stock (real-time)
   useEffect(() => {

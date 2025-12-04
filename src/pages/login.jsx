@@ -1,21 +1,49 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Form, Button, Card, Row, Col, Alert } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaGoogle, FaFacebook } from "react-icons/fa"; // Importing social icons
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 import "./login.css";
+import { loginUser } from "../firebase_services/authService";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setError("");
+    setLoading(true);
+
+    try {
+      await loginUser(formData.email, formData.password);
+      // On success, redirect to profile (or /home if you prefer)
+      navigate("/home");
+    } catch (err) {
+      console.error("Login error:", err);
+
+      let message = "Login failed. Please check your credentials.";
+      if (err.code === "auth/user-not-found") {
+        message = "No account found with this email.";
+      } else if (err.code === "auth/wrong-password") {
+        message = "Incorrect password. Please try again.";
+      } else if (err.code === "auth/invalid-email") {
+        message = "Please enter a valid email address.";
+      }
+
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,6 +86,9 @@ const Login = () => {
               >
                 <Card.Body>
                   <h2 className="text-center text-white mb-4">Login</h2>
+
+                  {error && <Alert variant="danger">{error}</Alert>}
+
                   <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
                       <Form.Label
@@ -143,12 +174,13 @@ const Login = () => {
                         fontWeight: "bold",
                         boxShadow: "0 0 12px rgba(255, 99, 99, 0.4)",
                       }}
+                      disabled={loading}
                     >
-                      Login
+                      {loading ? "Logging in..." : "Login"}
                     </Button>
                   </Form>
 
-                  {/* Social Login Icons */}
+                  {/* Social Login Icons (UI only for now) */}
                   <div className="mt-4 d-flex justify-content-center gap-3">
                     <Button
                       style={{
@@ -160,6 +192,7 @@ const Login = () => {
                         marginRight: "30px",
                       }}
                       aria-label="Login with Google"
+                      type="button"
                     >
                       <FaGoogle size={24} />
                     </Button>
@@ -172,6 +205,7 @@ const Login = () => {
                         padding: "12px",
                       }}
                       aria-label="Login with Facebook"
+                      type="button"
                     >
                       <FaFacebook size={24} />
                     </Button>

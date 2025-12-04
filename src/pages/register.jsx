@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import './register.css';
+import React, { useState, useEffect } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "./register.css";
+import { registerUser } from "../firebase_services/authService";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    bloodGroup: '',
-    location: '',
-    gender: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    phone: "",
+    bloodGroup: "",
+    location: "",
+    gender: "",
+    password: "",
+    confirmPassword: "",
     isDonor: false,
   });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -26,39 +33,88 @@ const Register = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
+    setError("");
+    setSuccess("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
+    // Basic validations
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      setError("Passwords do not match.");
       return;
     }
 
-    // This is where you'd normally send formData to the backend
-    console.log('Registered User:', formData);
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      bloodGroup: '',
-      location: '',
-      gender: '',
-      password: '',
-      confirmPassword: '',
-      isDonor: false,
-    });
+    setLoading(true);
+
+    const wantsToBeDonor = formData.isDonor; // capture before reset
+
+    try {
+      await registerUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        bloodGroup: formData.bloodGroup,
+        phone: formData.phone,
+        location: formData.location,
+        isDonor: wantsToBeDonor,
+      });
+
+      setSuccess("Registration successful! Redirecting...");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        bloodGroup: "",
+        location: "",
+        gender: "",
+        password: "",
+        confirmPassword: "",
+        isDonor: false,
+      });
+
+      // Redirect after a short delay so user can see the success message
+      setTimeout(() => {
+        if (wantsToBeDonor) {
+          navigate("/Donate");
+        } else {
+          navigate("/profile");
+        }
+      }, 1500);
+    } catch (err) {
+      console.error("Registration error:", err);
+
+      let message = "Registration failed. Please try again.";
+      if (err.code === "auth/email-already-in-use") {
+        message = "This email is already in use.";
+      } else if (err.code === "auth/invalid-email") {
+        message = "Please enter a valid email address.";
+      } else if (err.code === "auth/weak-password") {
+        message = "Password is too weak.";
+      }
+
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="register-wrapper">
       <div className="register-left" data-aos="fade-right">
-        <h1 data-aos="fade-up" data-aos-delay="100">Join Our Life-Saving Mission</h1>
+        <h1 data-aos="fade-up" data-aos-delay="100">
+          Join Our Life-Saving Mission
+        </h1>
         <p data-aos="fade-up" data-aos-delay="200">
           Become a donor and help save lives. Every drop counts.
         </p>
@@ -67,8 +123,11 @@ const Register = () => {
       <div className="register-right" data-aos="fade-left">
         <div className="glass-card" data-aos="zoom-in-up" data-aos-delay="400">
           <h2 className="text-center mb-4">Register</h2>
-          <Form onSubmit={handleSubmit}>
 
+          {error && <Alert variant="danger">{error}</Alert>}
+          {success && <Alert variant="success">{success}</Alert>}
+
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3 text-start">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -145,10 +204,10 @@ const Register = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Select gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
               </Form.Select>
             </Form.Group>
 
@@ -186,8 +245,13 @@ const Register = () => {
               />
             </Form.Group>
 
-            <Button type="submit" variant="danger" className="w-100">
-              Register
+            <Button
+              type="submit"
+              variant="danger"
+              className="w-100"
+              disabled={loading}
+            >
+              {loading ? "Registering..." : "Register"}
             </Button>
           </Form>
 
