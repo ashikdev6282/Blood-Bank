@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./blooddrive.css";
@@ -9,6 +9,9 @@ import Lottie from "lottie-react";
 import JourneyPath from "../assets/journey-path.json";
 import { BloodContext } from "../context/BloodContext";
 import { generateTimeOptions } from "../utils/timeutils";
+
+// 🔹 use your Firestore user service
+import { listenToUserProfile } from "../firebase_services/userService";
 
 const BloodDrive = () => {
   const [stats, setStats] = useState({ drives: 0, donors: 0, lives: 0 });
@@ -33,10 +36,31 @@ const BloodDrive = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // 🔹 Firestore profile & donor status
+  const [profile, setProfile] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
     animateStats();
   }, []);
+
+  // 🔹 Listen to user profile from Firestore
+  useEffect(() => {
+    if (!user) {
+      setProfile(null);
+      setProfileLoading(false);
+      return;
+    }
+
+    setProfileLoading(true);
+    const unsubscribe = listenToUserProfile(user.uid, (doc) => {
+      setProfile(doc);
+      setProfileLoading(false);
+    });
+
+    return () => unsubscribe && unsubscribe();
+  }, [user]);
 
   const animateStats = () => {
     let drives = 0,
@@ -104,6 +128,7 @@ const BloodDrive = () => {
         agreeToContact: formData.agreeToContact,
         status: "Pending",
         createdBy: user?.email || null,
+        createdByUid: user?.uid || null,
       });
 
       setSuccessMessage("Blood drive hosted successfully! 🎉");
@@ -130,6 +155,8 @@ const BloodDrive = () => {
       setSubmitting(false);
     }
   };
+
+  const isDonor = profile?.isDonor === true;
 
   return (
     <section className="blood-drive-section">
@@ -161,12 +188,7 @@ const BloodDrive = () => {
           className="info-section my-5 px-4 justify-content-center"
           data-aos="fade-up"
         >
-          <Col
-            md={4}
-            sm={12}
-            className="text-center info-card"
-            data-aos="zoom-in"
-          >
+          <Col md={4} sm={12} className="text-center info-card" data-aos="zoom-in">
             <div className="info-icon">
               <FaCalendarAlt />
             </div>
@@ -210,7 +232,7 @@ const BloodDrive = () => {
           </Col>
         </Row>
 
-        {/* Host Form Section - Lottie Left, Form Right */}
+        {/* Host Form Section */}
         <Row
           className="host-form-section my-5 p-4 rounded align-items-center"
           data-aos="fade-up"
@@ -229,11 +251,20 @@ const BloodDrive = () => {
           </Col>
 
           <Col md={6} className="order-md-2 order-1">
-            {user?.isDonor ? (
+            {!user && (
+              <Alert variant="info">Please log in to host a blood drive.</Alert>
+            )}
+
+            {user && profileLoading && (
+              <div className="d-flex align-items-center gap-2 mb-3">
+                <Spinner animation="border" size="sm" />
+                <span>Checking donor status...</span>
+              </div>
+            )}
+
+            {user && !profileLoading && isDonor && (
               <>
-                {errorMessage && (
-                  <Alert variant="danger">{errorMessage}</Alert>
-                )}
+                {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                 {successMessage && (
                   <Alert variant="success">{successMessage}</Alert>
                 )}
@@ -388,7 +419,9 @@ const BloodDrive = () => {
                   </Button>
                 </Form>
               </>
-            ) : (
+            )}
+
+            {user && !profileLoading && !isDonor && (
               <Alert variant="warning">
                 Only registered donors can host a blood drive. Please register
                 as a donor to access this form.
