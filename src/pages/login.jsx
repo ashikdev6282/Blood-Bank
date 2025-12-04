@@ -180,37 +180,6 @@ const Login = () => {
                     </Button>
                   </Form>
 
-                  {/* Social Login Icons (UI only for now) */}
-                  <div className="mt-4 d-flex justify-content-center gap-3">
-                    <Button
-                      style={{
-                        backgroundColor: "#DB4437",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "50%",
-                        padding: "12px",
-                        marginRight: "30px",
-                      }}
-                      aria-label="Login with Google"
-                      type="button"
-                    >
-                      <FaGoogle size={24} />
-                    </Button>
-                    <Button
-                      style={{
-                        backgroundColor: "#3b5998",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "50%",
-                        padding: "12px",
-                      }}
-                      aria-label="Login with Facebook"
-                      type="button"
-                    >
-                      <FaFacebook size={24} />
-                    </Button>
-                  </div>
-
                   <p className="text-center mt-3 text-white">
                     Don't have an account?{" "}
                     <Link
