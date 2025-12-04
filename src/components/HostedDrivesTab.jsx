@@ -1,122 +1,83 @@
-import React from 'react';
-import Slider from 'react-slick';
-import './hostedDrivetab.css';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaClock } from 'react-icons/fa';
+// src/components/HostedDrivesTab.jsx
+import React, { useContext, useMemo } from "react";
+import { BloodContext } from "../context/BloodContext";
+import { Table, Badge, Spinner } from "react-bootstrap";
 
 const HostedDrivesTab = () => {
-  const drivesData = [
-    {
-      id: 1,
-      name: "John Doe",
-      org: "Red Cross Society",
-      date: "2024-11-21",
-      time: "10:00 AM",
-      location: "City Center, Trivandrum",
-      phone: "123-456-7890",
-      email: "john@example.com",
-      type: "Community",
-      donors: 100,
-      requirements: "None",
-      status: "Completed",
-      desc: "Annual blood donation drive to support local hospitals.",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      org: "Global Blood Org",
-      date: "2024-10-15",
-      time: "11:00 AM",
-      location: "Main Hall, Kochi",
-      phone: "987-654-3210",
-      email: "jane@example.com",
-      type: "Corporate",
-      donors: 80,
-      requirements: "Snacks",
-      status: "Pending",
-      desc: "Drive to encourage corporate donor participation.",
-    },
-    {
-      id: 3,
-      name: "Raj Kumar",
-      org: "Youth Blood Circle",
-      date: "2024-09-10",
-      time: "09:30 AM",
-      location: "Community Hall, Chennai",
-      phone: "777-888-9999",
-      email: "raj@example.com",
-      type: "College",
-      donors: 60,
-      requirements: "Water Bottles",
-      status: "Approved",
-      desc: "Drive with college volunteers and NSS unit.",
-    },
-    // Add more if needed...
-  ];
+  const { user, loadingUser, bloodDrives, loadingDrives } =
+    useContext(BloodContext);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    slidesToShow: 1, // or 2 if you want multiple per view
-    slidesToScroll: 1,
-    arrows: true,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          dots: true,
-        },
-      },
-    ],
-    
-  };
+  const loading = loadingUser || loadingDrives;
+
+  const myDrives = useMemo(() => {
+    if (!user) return [];
+    return (bloodDrives || []).filter(
+      (d) => d.createdBy && d.createdBy === user.email
+    );
+  }, [user, bloodDrives]);
+
+  if (!user && !loadingUser) {
+    return <p>Please log in to see your hosted drives.</p>;
+  }
+
+  if (loading) {
+    return (
+      <div className="text-center py-4">
+        <Spinner animation="border" />
+        <p className="mt-2">Loading your drives...</p>
+      </div>
+    );
+  }
+
+  if (myDrives.length === 0) {
+    return (
+      <p className="text-muted">
+        You haven&apos;t hosted any blood drives yet. Host your first drive from
+        the Blood Drive page!
+      </p>
+    );
+  }
 
   return (
-    <div className="hosted-drives-tab" data-aos="fade-up">
-      <h2>Your Hosted Drives</h2>
-      <div style={{ width: "100%", margin: "0 auto", maxWidth: "750px", padding: "20px" }}>
-      <Slider {...settings}>
-        {drivesData.map((drive) => (
-          <div key={drive.id} className="carousel-card" data-aos="zoom-in" data-aos-delay={drive.id * 100}> 
-            <div className="drive-card">
-              <div className="card-header">
-                <h3>{drive.name}</h3>
-                <span className={`status ${drive.status.toLowerCase()}`}>{drive.status}</span>
-              </div>
-              <p><strong>Org:</strong> {drive.org}</p>
-              <p><FaCalendarAlt /> {drive.date} <FaClock style={{ marginLeft: "10px" }} /> {drive.time}</p>
-              <p><FaMapMarkerAlt /> {drive.location}</p>
-              <p><FaPhone /> {drive.phone}</p>
-              <p><FaEnvelope /> {drive.email}</p>
-              <p><strong>Type:</strong> {drive.type}</p>
-              <p><strong>Expected Donors:</strong> {drive.donors}</p>
-              <p><strong>Requirements:</strong> {drive.requirements}</p>
-              <p><strong>Description:</strong> {drive.desc}</p>
-            </div>
-          </div>
-        ))}
-      </Slider>
-      </div>
+    <div className="hosted-drives-tab">
+      <Table responsive hover bordered>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Organization</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Expected Donors</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {myDrives.map((drive, index) => (
+            <tr key={drive.id || index}>
+              <td>{index + 1}</td>
+              <td>{drive.organization}</td>
+              <td>{drive.date}</td>
+              <td>{drive.time}</td>
+              <td>{drive.location}</td>
+              <td>{drive.expectedDonors}</td>
+              <td>
+                <Badge
+                  bg={
+                    drive.status === "Approved"
+                      ? "success"
+                      : drive.status === "Completed"
+                      ? "primary"
+                      : "warning"
+                  }
+                >
+                  {drive.status || "Pending"}
+                </Badge>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 };

@@ -1,38 +1,80 @@
-import React from 'react';
-import './tabcontents.css'; 
-
+// src/components/BloodRequestTab.jsx
+import React, { useContext, useMemo } from "react";
+import { BloodContext } from "../context/BloodContext";
+import { Table, Badge, Spinner } from "react-bootstrap";
 
 const BloodRequestsTab = () => {
-  const requests = [
-    {
-      id: 1,
-      hospital: 'General Hospital',
-      date: '2025-05-12',
-      bloodType: 'B+',
-      status: 'Fulfilled',
-    },
-    {
-      id: 2,
-      hospital: 'Sunrise Clinic',
-      date: '2025-06-01',
-      bloodType: 'O-',
-      status: 'Pending',
-    },
-  ];
+  const { user, loadingUser, requests, loadingRequests } =
+    useContext(BloodContext);
+
+  const loading = loadingUser || loadingRequests;
+
+  const myRequests = useMemo(() => {
+    if (!user) return [];
+    return (requests || []).filter(
+      (r) => r.createdBy && r.createdBy === user.email
+    );
+  }, [user, requests]);
+
+  if (!user && !loadingUser) {
+    return <p>Please log in to see your blood requests.</p>;
+  }
+
+  if (loading) {
+    return (
+      <div className="text-center py-4">
+        <Spinner animation="border" />
+        <p className="mt-2">Loading your requests...</p>
+      </div>
+    );
+  }
+
+  if (myRequests.length === 0) {
+    return (
+      <p className="text-muted">
+        You haven&apos;t submitted any blood requests yet.
+      </p>
+    );
+  }
 
   return (
-    <div>
-      <h2>Your Blood Requests</h2>
-      <ul className="request-list" data-aos="fade-up">
-        {requests.map((req) => (
-          <li key={req.id} className="request-card" data-aos="zoom-in" data-aos-delay={req.id * 100}> 
-            <h4>{req.hospital}</h4>
-            <p><strong>Date:</strong> {req.date}</p>
-            <p><strong>Blood Group:</strong> {req.bloodType}</p>
-            <span className={`status ${req.status.toLowerCase()}`}>{req.status}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="blood-requests-tab">
+      <Table responsive hover bordered>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Patient</th>
+            <th>Blood Group</th>
+            <th>Units</th>
+            <th>Hospital</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {myRequests.map((req, index) => (
+            <tr key={req.id || index}>
+              <td>{index + 1}</td>
+              <td>{req.patientName || "Patient"}</td>
+              <td>{req.bloodGroup}</td>
+              <td>{req.units || "-"}</td>
+              <td>{req.hospital || "-"}</td>
+              <td>
+                <Badge
+                  bg={
+                    req.status === "fulfilled"
+                      ? "success"
+                      : req.status === "rejected"
+                      ? "danger"
+                      : "warning"
+                  }
+                >
+                  {req.status || "Pending"}
+                </Badge>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 };

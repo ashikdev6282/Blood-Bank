@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./profile.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FaCamera, FaEnvelope, FaTint, FaEdit } from "react-icons/fa";
+import { FaCamera, FaEnvelope, FaTint, FaEdit, FaSignOutAlt } from "react-icons/fa";
 import OverviewTab from "../components/OverviewTab";
 import HostedDrivesTab from "../components/HostedDrivesTab";
 import BloodRequestsTab from "../components/BloodRequestTab";
@@ -12,11 +12,12 @@ import {
   listenToUserProfile,
   updateUserProfile,
 } from "../firebase_services/userService";
+import { logoutUser } from "../firebase_services/authService";
 import { Spinner, Alert, Badge } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { user, loadingUser, bloodDrives, requests } =
-    useContext(BloodContext);
+  const { user, loadingUser, bloodDrives, requests } = useContext(BloodContext);
 
   const [activeTab, setActiveTab] = useState("overview");
   const [showModal, setShowModal] = useState(false);
@@ -28,6 +29,8 @@ const Profile = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [savingProfile, setSavingProfile] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     AOS.init({ duration: 800, easing: "ease-in-out" });
@@ -66,9 +69,7 @@ const Profile = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreviewImage(imageUrl);
-      setProfileData((prev) =>
-        prev ? { ...prev, photo: imageUrl } : prev
-      );
+      setProfileData((prev) => (prev ? { ...prev, photo: imageUrl } : prev));
       // Note: this is just a local preview.
       // To truly persist images you'd integrate Firebase Storage.
     }
@@ -98,6 +99,18 @@ const Profile = () => {
     // When modal closes, persist latest profileData
     await saveProfileToBackend();
     setShowModal(false);
+  };
+
+  const handleLogout = async () => {
+    if (!window.confirm("Are you sure you want to logout?")) return;
+
+    try {
+      await logoutUser();
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout error:", err);
+      setError("Failed to logout. Please try again.");
+    }
   };
 
   // 🔄 Loading and auth states
@@ -177,6 +190,10 @@ const Profile = () => {
         <button className="edit-btn" onClick={() => setShowModal(true)}>
           <FaEdit /> Edit Profile
         </button>
+
+        <button className="logout-btn" onClick={handleLogout}>
+          <FaSignOutAlt /> Logout
+        </button>
       </div>
 
       {/* Right Content */}
@@ -203,7 +220,6 @@ const Profile = () => {
         </div>
 
         <div className="tab-content" data-aos="zoom-in">
-          {/* You can pass myDrives / myRequests as props if those components support it */}
           {activeTab === "overview" && <OverviewTab />}
           {activeTab === "drives" && <HostedDrivesTab />}
           {activeTab === "requests" && <BloodRequestsTab />}

@@ -12,6 +12,7 @@ import AboutUs from "../pages/aboutus";
 import FindDonor from "../pages/findDonor";
 import Contact from "../pages/contactus";
 import BloodDrive from "../pages/blooddrive";
+import UserProtectedRoute from "./userProtectedRoute.jsx";
 
 // Layout Components
 import Navbar from "../components/navbar";
@@ -43,16 +44,16 @@ const AppContent = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<UserProtectedRoute><Home /></UserProtectedRoute>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Donate" element={<Donate />} />
-        <Route path="/RequestBlood" element={<RequestBlood />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/search" element={<FindDonor />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/blooddrive" element={<BloodDrive />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/Donate" element={<UserProtectedRoute><Donate /></UserProtectedRoute>} />
+        <Route path="/RequestBlood" element={<UserProtectedRoute><RequestBlood /> </UserProtectedRoute>} />
+        <Route path="/about" element={<UserProtectedRoute><AboutUs /> </UserProtectedRoute>} />
+        <Route path="/search" element={<UserProtectedRoute><FindDonor /></UserProtectedRoute>}  />
+        <Route path="/contact" element={<UserProtectedRoute><Contact /></UserProtectedRoute>} />
+        <Route path="/blooddrive" element={<UserProtectedRoute><BloodDrive /> </UserProtectedRoute>} />
+        <Route path="/profile" element={<UserProtectedRoute><Profile /> </UserProtectedRoute>} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />

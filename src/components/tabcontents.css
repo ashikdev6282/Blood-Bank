@@ -22,6 +22,7 @@
 
 .stat-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
 .stat-card h3 {
@@ -47,6 +48,10 @@
 .request-list {
   list-style: none;
   padding: 0;
+  font-size: 0.9rem;
+}
+.request-list li {
+  margin-bottom: 0.6rem;
 }
 
 /* Status Styles */

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged,} from "firebase/auth";
 import {
   listenToBloodStockChanges,
   addBloodStockItem,
@@ -46,6 +46,8 @@ export const BloodProvider = ({ children }) => {
   // 🩸 Drives from Firestore (live)
   const [bloodDrives, setBloodDrives] = useState([]);
   const [loadingDrives, setLoadingDrives] = useState(true);
+
+  const [loadingUser, setLoadingUser] = useState(true);
 
   const [adminStats, setAdminStats] = useState({
     totalDrives: 8,
