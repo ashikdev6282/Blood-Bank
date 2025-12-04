@@ -234,6 +234,7 @@ export const BloodProvider = ({ children }) => {
         // auth/user
         user,
         setUser,
+        loadingUser,   
 
         // blood stock (Firestore)
         bloodStock,
